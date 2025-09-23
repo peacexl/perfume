@@ -2,7 +2,6 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Header from "./Components/Header";
 
-/* Simple placeholders for the pages — replace with your real page components */
 const Page = ({ title }) => (
   <div style={{ padding: "4rem 1rem", minHeight: "60vh", textAlign: "center" }}>
     <h1 style={{ fontSize: "3rem", margin: 0 }}>{title}</h1>
