@@ -10,7 +10,6 @@ import { FiHeart, FiUser, FiShoppingCart, FiMenu } from "react-icons/fi";
 import { motion } from "framer-motion";
 import logo from "../assets/logo.png";
 import picture3 from "../assets/picture3.jpeg";
-// import perfume2 from "../assets/perfume2.jpg";
 
 const MotionBox = motion(Box);
 
@@ -77,11 +76,45 @@ const Header = () => {
     <Box as="header" px={6} py={4} position="sticky" top="0" zIndex="1000" bg="white" boxShadow="md">
       <Flex align="center" minH="80px">
         {/* Mobile: Cart + Logo + Hamburger */}
-        <Flex w="100%" align="center" justify="space-between" display={{ base: "flex", md: "none" }}>
-          <IconButton aria-label="Cart" icon={<FiShoppingCart size={22} />} size="lg" variant="ghost" />
-          <Box boxSize="60px"><img src={logo} alt="Logo" style={{ width: "100%", height: "auto" }} /></Box>
-          <IconButton aria-label="Menu" icon={<FiMenu size={26} />} size="lg" variant="ghost" onClick={onOpen} />
-        </Flex>
+<Flex
+  w="100%"
+  align="center"
+  justify="space-between"
+  display={{ base: "flex", md: "none" }}
+>
+  <IconButton
+    aria-label="Cart"
+    icon={<FiShoppingCart size={22} />}
+    size="lg"
+    variant="ghost"
+    bgColor="goldenrod"
+    color="white"
+  />
+
+  {/* Logo + Brandname */}
+  <HStack spacing={2}>
+    <Box boxSize="48px">
+      <img src={logo} alt="Logo" style={{ width: "100%", height: "auto" }} />
+    </Box>
+    <Text fontSize="xl" fontWeight="bold" color="goldenrod" letterSpacing="wide">
+      Xtra
+      <Text as="span" color="black">
+        Perfume
+      </Text>
+    </Text>
+  </HStack>
+
+  <IconButton
+    aria-label="Menu"
+    icon={<FiMenu size={26} />}
+    size="lg"
+    variant="ghost"
+    onClick={onOpen}
+    bgColor="goldenrod"
+    color="white"
+  />
+</Flex>
+
 
         {/* Desktop: Logo + Nav + Search + Icons */}
         <Flex align="center" w="100%" display={{ base: "none", md: "flex" }}>
@@ -191,81 +224,172 @@ const Header = () => {
       </Flex>
 
       {/* Mobile Drawer */}
-      <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
-        <DrawerOverlay />
-        <DrawerContent
-          bgImage= "src/assets/perfume2.jpeg"
-          bgSize="cover"
-          bgRepeat="no-repeat"
-          bgPosition="center"
-          color="white"
-        >
-          <DrawerCloseButton />
-          <DrawerHeader>
-            <Box boxSize="50px"><img src={logo} alt="Logo" style={{ width: "100%", height: "auto" }} /></Box>
-          </DrawerHeader>
-          <DrawerBody>
-            <VStack align="start" spacing={4}>
-              {navItems.map((item) => {
-                if (item.label === "Shop") return (
-                  <Accordion key={item.label} allowToggle w="100%">
-                    <AccordionItem border="none">
-                      <AccordionButton px={0}>
-                        <Box flex="1" textAlign="left" fontSize="lg" fontWeight="600">{item.label}</Box>
-                        <AccordionIcon />
-                      </AccordionButton>
+<Drawer isOpen={isOpen} placement="right" onClose={onClose}>
+  <DrawerOverlay />
+  <DrawerContent
+    bgImage="src/assets/perfume2.jpeg"
+    bgSize="cover"
+    bgRepeat="no-repeat"
+    bgPosition="center"
+    // color="white"
+  >
+    <DrawerCloseButton />
+
+    {/* Brand logo + name */}
+    <DrawerHeader borderBottomWidth="1px" borderColor="grey.600">
+      <Flex align="center" justify="center" gap={3}>
+        <Box boxSize="48px">
+          <img src={logo} alt="Logo" style={{ width: "100%", height: "auto" }} />
+        </Box>
+        <Text 
+            fontSize="2xl" fontWeight="bold" letterSpacing="wide" color="goldenrod" >Xtra
+          <Text as="span" color="black">Perfume</Text>
+        </Text>
+      </Flex>
+    </DrawerHeader>
+
+    <DrawerBody>
+      <VStack align="start" spacing={4} w="100%">
+        {navItems.map((item) => {
+          if (item.label === "Shop") return (
+            <Accordion key={item.label} allowToggle w="100%">
+              <AccordionItem border="none">
+                {({ isExpanded }) => (
+                  <>
+                    <AccordionButton px={0}>
+                      <Box flex="1" textAlign="left" fontSize="lg" fontWeight="600" color={"black"}>
+                        {item.label}
+                      </Box>
+                      <AccordionIcon />
+                    </AccordionButton>
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: isExpanded ? "auto" : 0, opacity: isExpanded ? 1 : 0 }}
+                      transition={{ duration: 0.35, ease: "easeOut" }}
+                      style={{ overflow: "hidden" }}
+                    >
                       <AccordionPanel pb={4}>
                         {shopLinks.map(link => (
-                          <NavLink key={link.path} to={link.path} style={{ display: "block", padding: "6px 0", fontSize: "md", color: "black" }}>{link.label}</NavLink>
+                          <NavLink
+                            key={link.path}
+                            to={link.path}
+                            style={{
+                              display: "block",
+                              padding: "6px 0",
+                              fontSize: "md",
+                              color: "white",
+                            }}
+                          >
+                            {link.label}
+                          </NavLink>
                         ))}
                       </AccordionPanel>
-                    </AccordionItem>
-                  </Accordion>
-                );
+                    </motion.div>
+                  </>
+                )}
+              </AccordionItem>
+            </Accordion>
+          );
 
-                if (item.label === "Category") return (
-                  <Accordion key={item.label} allowToggle w="100%">
-                    <AccordionItem border="none">
-                      <AccordionButton px={0}>
-                        <Box flex="1" textAlign="left" fontSize="lg" fontWeight="600">{item.label}</Box>
-                        <AccordionIcon />
-                      </AccordionButton>
+          if (item.label === "Category") return (
+            <Accordion key={item.label} allowToggle w="100%">
+              <AccordionItem border="none">
+                {({ isExpanded }) => (
+                  <>
+                    <AccordionButton px={0}>
+                      <Box flex="1" textAlign="left" fontSize="lg" fontWeight="600">
+                        {item.label}
+                      </Box>
+                      <AccordionIcon />
+                    </AccordionButton>
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: isExpanded ? "auto" : 0, opacity: isExpanded ? 1 : 0 }}
+                      transition={{ duration: 0.35, ease: "easeOut" }}
+                      style={{ overflow: "hidden" }}
+                    >
                       <AccordionPanel pb={4}>
                         {[...formenLinks, ...forwomenLinks, ...bybrandLinks, ...sendgiftLinks].map(link => (
-                          <NavLink key={link.path} to={link.path} style={{ display: "block", padding: "6px 0", fontSize: "md", color: "black" }}>{link.label}</NavLink>
+                          <NavLink
+                            key={link.path}
+                            to={link.path}
+                            style={{
+                              display: "block",
+                              padding: "6px 0",
+                              fontSize: "md",
+                              color: "white",
+                            }}
+                          >
+                            {link.label}
+                          </NavLink>
                         ))}
                       </AccordionPanel>
-                    </AccordionItem>
-                  </Accordion>
-                );
+                    </motion.div>
+                  </>
+                )}
+              </AccordionItem>
+            </Accordion>
+          );
 
-                if (item.label === "FAQ") return (
-                  <Accordion key={item.label} allowToggle w="100%">
-                    <AccordionItem border="none">
-                      <AccordionButton px={0}>
-                        <Box flex="1" textAlign="left" fontSize="lg" fontWeight="600">{item.label}</Box>
-                        <AccordionIcon />
-                      </AccordionButton>
+          if (item.label === "FAQ") return (
+            <Accordion key={item.label} allowToggle w="100%">
+              <AccordionItem border="none">
+                {({ isExpanded }) => (
+                  <>
+                    <AccordionButton px={0}>
+                      <Box flex="1" textAlign="left" fontSize="lg" fontWeight="600">
+                        {item.label}
+                      </Box>
+                      <AccordionIcon />
+                    </AccordionButton>
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: isExpanded ? "auto" : 0, opacity: isExpanded ? 1 : 0 }}
+                      transition={{ duration: 0.35, ease: "easeOut" }}
+                      style={{ overflow: "hidden" }}
+                    >
                       <AccordionPanel pb={4}>
-                        <NavLink to="/faq/sub1" style={{ display: "block", padding: "6px 0", fontSize: "md", color: "black" }}>Submenu Item A</NavLink>
-                        <NavLink to="/faq/sub2" style={{ display: "block", padding: "6px 0", fontSize: "md", color: "black" }}>Submenu Item B</NavLink>
+                        <NavLink to="/faq/sub1" style={{ display: "block", padding: "6px 0", fontSize: "md", color: "white" }}>
+                          Submenu Item A
+                        </NavLink>
+                        <NavLink to="/faq/sub2" style={{ display: "block", padding: "6px 0", fontSize: "md", color: "white" }}>
+                          Submenu Item B
+                        </NavLink>
                       </AccordionPanel>
-                    </AccordionItem>
-                  </Accordion>
-                );
+                    </motion.div>
+                  </>
+                )}
+              </AccordionItem>
+            </Accordion>
+          );
 
-                return (
-                  <NavLink key={item.path} to={item.path} style={{ fontSize: "lg", fontWeight: "600", color: "black" }}>{item.label}</NavLink>
-                );
-              })}
-            </VStack>
-            <Spacer />
-            <Box mt={96} textAlign="center" fontSize="sm" color="gray.500">
-              © {new Date().getFullYear()} XtraPerfume. All rights reserved.
-            </Box>
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer>
+          return (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              style={{ fontSize: "lg", fontWeight: "600", color: "white" }}
+            >
+              {item.label}
+            </NavLink>
+          );
+        })}
+      </VStack>
+
+      {/* Footer inside drawer */}
+      <Spacer />
+      <VStack spacing={4} mt={12} w="100%">
+        <HStack spacing={6}>
+          <i className="fab fa-instagram" style={{ fontSize: "20px", color: "white" }}></i>
+          <i className="fab fa-facebook" style={{ fontSize: "20px", color: "white" }}></i>
+          <i className="fab fa-tiktok" style={{ fontSize: "20px", color: "white" }}></i>
+        </HStack>
+        <Text fontSize="sm" color="whiteAlpha.800">
+          © {new Date().getFullYear()} XtraPerfume. All rights reserved.
+        </Text>
+      </VStack>
+    </DrawerBody>
+  </DrawerContent>
+</Drawer>
     </Box>
   );
 };
