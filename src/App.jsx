@@ -1,6 +1,8 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Header from "./Components/Header";
+import Footer from "./Components/Footer";
+import MobileFooterBar from "./Components/MobileFooterBar";
 
 const Page = ({ title }) => (
   <div style={{ padding: "4rem 1rem", minHeight: "60vh", textAlign: "center" }}>
@@ -12,8 +14,10 @@ export default function App() {
   return (
     <>
       <Header />
+      <Footer />
+      <MobileFooterBar />
       <Routes>
-        <Route path="/" element={<Page title="Home Page" />} />
+        <Route path="/" element={<Page title="" />} />
         <Route path="/shop" element={<Page title="Shop Page" />} />
         <Route path="/category" element={<Page title="Category Page" />} />
         <Route path="/faq" element={<Page title="FAQ Page" />} />
